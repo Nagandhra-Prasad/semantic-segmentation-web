@@ -1,0 +1,88 @@
+<h2>Create account</h2>
+<p class="sub">Set up your SegVision workspace for road-scene segmentation.</p>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label for="full_name">Full name</label>
+    <input
+      id="full_name"
+      formControlName="full_name"
+      placeholder="Jane Doe"
+      autocomplete="name"
+    />
+    @if (showError('full_name')) {
+      <p class="field-error">Enter your full name.</p>
+    }
+  </div>
+
+  <div class="field">
+    <label for="email">Work email</label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      placeholder="you@company.com"
+      autocomplete="email"
+    />
+    @if (showError('email')) {
+      <p class="field-error">Enter a valid email address.</p>
+    }
+  </div>
+
+  <div class="field">
+    <label for="organization">Organization (optional)</label>
+    <input
+      id="organization"
+      formControlName="organization"
+      placeholder="Company or lab name"
+      autocomplete="organization"
+    />
+  </div>
+
+  <app-password-field
+    controlName="password"
+    inputId="register-password"
+    label="Password"
+    placeholder="At least 8 characters"
+    hint="Use 8+ characters with letters and numbers."
+    autocomplete="new-password"
+  />
+  @if (showError('password')) {
+    <p class="field-error password-error">Password must be at least 8 characters.</p>
+  }
+
+  <app-password-field
+    controlName="confirm_password"
+    inputId="register-confirm-password"
+    label="Confirm password"
+    placeholder="Re-enter your password"
+    autocomplete="new-password"
+  />
+  @if (showError('confirm_password', 'mismatch')) {
+    <p class="field-error password-error">Passwords do not match.</p>
+  } @else if (showError('confirm_password')) {
+    <p class="field-error password-error">Confirm your password.</p>
+  }
+
+  <div class="field terms">
+    <label class="terms-label">
+      <input type="checkbox" formControlName="accept_terms" />
+      <span>
+        I agree to use this workspace responsibly and accept that uploads are processed on the
+        segmentation server.
+      </span>
+    </label>
+    @if (showError('accept_terms')) {
+      <p class="field-error">You must accept the terms to continue.</p>
+    }
+  </div>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <button class="btn btn-primary full" type="submit" [disabled]="loading()">
+    {{ loading() ? 'Creating account…' : 'Create account' }}
+  </button>
+</form>
+<p class="switch">Have an account? <a routerLink="/auth/login">Sign in</a></p>

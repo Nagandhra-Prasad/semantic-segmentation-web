@@ -1,59 +1,29 @@
-# SemanticSegmentationWeb
+# semantic-segmentation-web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
+Angular 19 UI for the Semantic Segmentation API — lite purple theme, auth hero, upload → SegFormer viewer, analytics, reports, and history.
 
-## Development server
+## Prerequisites
 
-To start a local development server, run:
+- API running at `http://127.0.0.1:8000`
+- MongoDB (`./scripts/start-mongodb.sh` in API repo), Redis, Celery worker
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Run
 
 ```bash
-ng generate component component-name
+npm install
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Open http://localhost:4200 — dev server proxies `/api` to the FastAPI backend (`proxy.conf.json`).
 
-```bash
-ng generate --help
-```
+## Flow
 
-## Building
+1. **Register / Login** — JWT stored in `localStorage`
+2. **Upload** — road image, traffic scene, or dashcam video
+3. **Viewer** — polls job until SegFormer completes; shows original, overlay, legend
+4. **Analytics / Reports / History** — wired to API modules 6–8
+5. **Profile** — update name or password
 
-To build the project run:
+## Production API URL
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Set `apiUrl` in `src/environments/environment.prod.ts` to your deployed API base (e.g. `https://api.example.com/api/v1`).

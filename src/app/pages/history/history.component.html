@@ -1,0 +1,79 @@
+<div class="history card">
+  <div class="tabs">
+    @for (t of ['uploads', 'jobs', 'reports', 'activity']; track t) {
+      <button type="button" [class.active]="tab() === t" (click)="setTab($any(t))">{{ t }}</button>
+    }
+  </div>
+
+  @switch (tab()) {
+    @case ('uploads') {
+      @if (uploads().length === 0) {
+        <app-empty-state
+          icon="↑"
+          title="No uploads"
+          message="Files you upload for segmentation will be listed here with category and timestamp."
+          linkRoute="/app/upload"
+          linkText="Upload media"
+        />
+      } @else {
+        <ul>
+          @for (u of uploads(); track u.id) {
+            <li>{{ u.original_filename }} — {{ u.category }} — {{ u.created_at | date: 'short' }}</li>
+          }
+        </ul>
+      }
+    }
+    @case ('jobs') {
+      @if (jobs().length === 0) {
+        <app-empty-state
+          icon="◷"
+          title="No processing jobs"
+          message="Jobs appear after you upload media and start SegFormer processing."
+          linkRoute="/app/upload"
+          linkText="Start processing"
+        />
+      } @else {
+        <ul>
+          @for (j of jobs(); track j.id) {
+            <li>
+              <a [routerLink]="['/app/viewer', j.id]">{{ j.source_filename || j.status }}</a>
+              — {{ j.created_at | date: 'short' }}
+            </li>
+          }
+        </ul>
+      }
+    }
+    @case ('reports') {
+      @if (reports().length === 0) {
+        <app-empty-state
+          icon="▤"
+          title="No reports"
+          message="Generate PDF or Excel reports from completed jobs on the Reports page."
+          linkRoute="/app/reports"
+          linkText="Go to reports"
+        />
+      } @else {
+        <ul>
+          @for (r of reports(); track r.id) {
+            <li>{{ r.display_title || r.pdf_download_name }} — {{ r.source_filename || 'report' }}</li>
+          }
+        </ul>
+      }
+    }
+    @case ('activity') {
+      @if (activity().length === 0) {
+        <app-empty-state
+          icon="◉"
+          title="No activity yet"
+          message="Account actions such as uploads and report generation will show up here."
+        />
+      } @else {
+        <ul>
+          @for (a of activity(); track a.id) {
+            <li>{{ a.action }} — {{ a.created_at | date: 'short' }}</li>
+          }
+        </ul>
+      }
+    }
+  }
+</div>

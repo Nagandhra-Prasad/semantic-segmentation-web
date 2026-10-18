@@ -1,0 +1,121 @@
+<div class="admin card">
+  <header class="admin-head">
+    <div>
+      <h2>Administration</h2>
+      <p>Manage users and review all uploads across the platform.</p>
+    </div>
+    <button type="button" class="btn btn-ghost" (click)="refresh()">Refresh</button>
+  </header>
+
+  @if (error(); as msg) {
+    <p class="error">{{ msg }}</p>
+  }
+
+  <div class="tabs">
+    <button type="button" [class.active]="tab() === 'users'" (click)="setTab('users')">Users</button>
+    <button type="button" [class.active]="tab() === 'uploads'" (click)="setTab('uploads')">All uploads</button>
+  </div>
+
+  @switch (tab()) {
+    @case ('users') {
+      <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Uploads</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (users().length === 0) {
+            <tr>
+              <td colspan="6">
+                <app-empty-state
+                  icon="◎"
+                  title="No users"
+                  message="Registered users will appear here for role and activation management."
+                />
+              </td>
+            </tr>
+          }
+          @for (row of users(); track row.user.id) {
+            <tr [class.inactive]="!row.user.is_active">
+              <td>{{ row.user.full_name }}</td>
+              <td>{{ row.user.email }}</td>
+              <td><span class="badge">{{ row.user.role }}</span></td>
+              <td>{{ row.upload_count }}</td>
+              <td>{{ row.user.is_active ? 'Active' : 'Deactivated' }}</td>
+              <td>
+                @if (!isSelf(row.user.id) && row.user.role !== 'admin') {
+                  <button
+                    type="button"
+                    class="btn btn-sm"
+                    [disabled]="busyUserId() === row.user.id"
+                    (click)="toggleActive(row)"
+                  >
+                    {{ row.user.is_active ? 'Deactivate' : 'Activate' }}
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      </div>
+    }
+    @case ('uploads') {
+      <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>User</th>
+            <th>Type</th>
+            <th>Validated</th>
+            <th>Job</th>
+            <th>Uploaded</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (uploads().length === 0) {
+            <tr>
+              <td colspan="6">
+                <app-empty-state
+                  icon="↑"
+                  title="No uploads"
+                  message="All platform uploads from every user will be listed here."
+                />
+              </td>
+            </tr>
+          }
+          @for (u of uploads(); track u.id) {
+            <tr>
+              <td>{{ u.original_filename }}</td>
+              <td>
+                <span>{{ u.user_full_name || '—' }}</span>
+                <small>{{ u.user_email }}</small>
+              </td>
+              <td>{{ u.media_type }} / {{ u.category }}</td>
+              <td>{{ u.is_validated ? 'Yes' : 'No' }}</td>
+              <td>
+                @if (u.latest_job_id) {
+                  <a [routerLink]="['/app/viewer', u.latest_job_id]">
+                    {{ u.latest_job_status }}
+                  </a>
+                } @else {
+                  —
+                }
+              </td>
+              <td>{{ u.created_at | date: 'short' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,40 @@
+.reports {
+  padding: 1.5rem 1.75rem 2rem;
+
+  h4 {
+    margin: 1.5rem 0 0.75rem;
+    color: var(--purple-900);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--purple-100);
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 0.5rem;
+      border-bottom: 1px solid var(--purple-100);
+    }
+  }
+}
+
+.muted {
+  color: var(--slate-600);
+}
+
+.msg {
+  color: var(--purple-700);
+}

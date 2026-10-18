@@ -1,0 +1,63 @@
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2rem;
+  padding: 2rem;
+  align-items: center;
+}
+
+.hero {
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.hero-img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+}
+
+.hero-copy {
+  h2 {
+    margin: 0 0 0.75rem;
+    color: var(--purple-900);
+    font-size: 1.75rem;
+  }
+
+  p {
+    color: var(--slate-600);
+    line-height: 1.55;
+  }
+
+  ul {
+    margin: 1rem 0 0;
+    padding-left: 1.2rem;
+    color: var(--purple-700);
+    line-height: 1.7;
+  }
+}
+
+.form-panel {
+  padding: 2rem;
+  max-width: 440px;
+  margin: 0 auto;
+  width: 100%;
+  overflow: visible;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .btn.full {
+    color: #fff;
+  }
+}
+
+@media (max-width: 960px) {
+  .auth-page {
+    grid-template-columns: 1fr;
+  }
+}

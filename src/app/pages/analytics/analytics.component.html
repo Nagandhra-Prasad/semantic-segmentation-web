@@ -1,0 +1,59 @@
+<div class="analytics">
+  @if (summary(); as s) {
+    <div class="stats">
+      @for (key of ['total_jobs', 'completed_jobs', 'failed_jobs', 'average_inference_time_ms']; track key) {
+        <div class="stat card">
+          <span class="label">{{ key.replaceAll('_', ' ') }}</span>
+          <strong>{{ s[key] }}</strong>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="card stats-empty">
+      <app-empty-state
+        icon="▣"
+        title="Analytics unavailable"
+        message="We could not load summary metrics. Try again after your first job completes."
+        linkRoute="/app/upload"
+        linkText="Upload media"
+      />
+    </div>
+  }
+
+  <div class="card split">
+    <div>
+      <h3>Jobs</h3>
+      @if (jobs().length === 0) {
+        <app-empty-state
+          icon="◷"
+          title="No jobs to analyze"
+          message="Run segmentation on an image, video, or dataset to compare job metrics."
+          linkRoute="/app/upload"
+          linkText="Create a job"
+        />
+      } @else {
+        <ul class="job-list">
+          @for (job of jobs(); track job.id) {
+            <li>
+              <button type="button" (click)="selectJob(job.id)">
+                {{ job.id.slice(0, 8) }}… — {{ job.status }}
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+    <div>
+      <h3>Job metrics</h3>
+      @if (selectedJob(); as m) {
+        <pre>{{ m | json }}</pre>
+      } @else {
+        <app-empty-state
+          icon="◎"
+          title="Select a job"
+          message="Choose a job from the list to view segmentation performance and class breakdown."
+        />
+      }
+    </div>
+  </div>
+</div>

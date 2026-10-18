@@ -1,0 +1,34 @@
+.history {
+  padding: 1.5rem 1.75rem 2rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  button {
+    border: none;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    background: var(--purple-50);
+    cursor: pointer;
+    text-transform: capitalize;
+
+    &.active {
+      background: var(--purple-500);
+      color: #fff;
+    }
+  }
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--purple-100);
+  }
+}

@@ -1,0 +1,44 @@
+<section class="profile-page">
+  <div class="profile-card card">
+    <header class="page-head">
+      <h2>Your profile</h2>
+      <p class="muted">Update your display name or password for this workspace.</p>
+    </header>
+
+    @if (auth.currentUser(); as user) {
+      <dl class="profile-meta">
+        <div>
+          <dt>Email</dt>
+          <dd>{{ user.email }}</dd>
+        </div>
+        <div>
+          <dt>Role</dt>
+          <dd><span class="badge">{{ user.role }}</span></dd>
+        </div>
+      </dl>
+    }
+
+    <form class="profile-form" [formGroup]="form" (ngSubmit)="save()">
+      <div class="field">
+        <label for="full_name">Full name</label>
+        <input id="full_name" formControlName="full_name" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="password">New password (optional)</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="new-password"
+          placeholder="Leave blank to keep current password"
+        />
+      </div>
+      @if (message()) {
+        <p class="msg" role="status">{{ message() }}</p>
+      }
+      <div class="profile-actions">
+        <button class="btn btn-primary" type="submit">Save changes</button>
+      </div>
+    </form>
+  </div>
+</section>

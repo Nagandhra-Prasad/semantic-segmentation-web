@@ -1,0 +1,109 @@
+@if (data(); as d) {
+  <div class="viewer">
+    <div class="meta card">
+      <div>
+        <span class="badge">{{ statusLabel(d.job.status) }}</span>
+        <h3>Segmentation result</h3>
+        @if (d.media_type === 'video' || d.media_type === 'dataset') {
+          <p class="video-note">{{ d.job.frames_processed }} frames · animated overlay</p>
+        }
+      </div>
+      <div class="metrics">
+        <div><small>Inference</small><strong>{{ d.job.inference_time_ms ?? '—' }} ms</strong></div>
+        <div><small>Classes</small><strong>{{ d.job.detected_class_count }}</strong></div>
+        <div><small>Accuracy ref.</small><strong>{{ d.job.model_accuracy_reference ?? '—' }}</strong></div>
+      </div>
+      @if (d.job.status === 'completed') {
+        <a class="btn btn-ghost" [routerLink]="['/app/reports']" [queryParams]="{ jobId: jobId() }">
+          Generate report
+        </a>
+      }
+    </div>
+
+    <div class="panels">
+      <div class="panel card">
+        <h4>Original</h4>
+        @if (d.media_type === 'dataset') {
+          <app-empty-state
+            icon="▦"
+            title="Dataset upload"
+            message="Original frames live inside your zip. Use the segmented overlay player to review results."
+          />
+        } @else if (originalUrl()) {
+          <app-secure-media [url]="originalUrl()!" [kind]="d.media_type" alt="Original" />
+        } @else if (d.job.status === 'completed') {
+          <app-empty-state
+            icon="◇"
+            title="Original unavailable"
+            message="The source file could not be loaded. Try refreshing or re-open the job from History."
+          />
+        } @else {
+          <app-empty-state
+            icon="◌"
+            title="Waiting for source"
+            message="The original media will appear here when processing finishes."
+          />
+        }
+      </div>
+      <div class="panel card">
+        <h4>Segmented overlay</h4>
+        @if ((d.media_type === 'video' || d.media_type === 'dataset') && overlayFrameUrls().length > 0) {
+          <app-frame-sequence-player [frameUrls]="overlayFrameUrls()" [fps]="overlayFps" />
+        } @else if (overlayUrl()) {
+          <app-secure-media [url]="overlayUrl()!" kind="image" alt="Segmentation" />
+        } @else if (d.job.status === 'failed') {
+          <app-empty-state
+            icon="!"
+            title="Processing failed"
+            [message]="d.job.error_message || 'SegFormer could not complete this job. Try another file or check the API logs.'"
+            linkRoute="/app/upload"
+            linkText="Upload again"
+          />
+        } @else if (d.job.status !== 'completed') {
+          <app-empty-state
+            icon="◌"
+            title="Processing…"
+            message="SegFormer is running. The first run may download the model; CPU jobs can take 1–3 minutes."
+          />
+        } @else {
+          <app-empty-state
+            icon="◇"
+            title="No overlay yet"
+            message="This job completed without overlay output. Check History or run processing again."
+          />
+        }
+      </div>
+    </div>
+
+    <div class="legend card">
+      <h4>Object legend</h4>
+      @if (d.legend.length === 0) {
+        <app-empty-state
+          icon="▣"
+          title="No classes detected"
+          message="The model did not assign segmentation labels for this job, or results are still pending."
+        />
+      } @else {
+        <div class="legend-grid">
+          @for (item of d.legend; track item.key) {
+            <div class="legend-item">
+              <span class="swatch" [style.background]="item.color_hex"></span>
+              {{ item.label }}
+              @if (d.job.class_counts[item.key]) {
+                <small>{{ d.job.class_counts[item.key] }} px</small>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+  <div class="card viewer-loading">
+    <app-empty-state
+      icon="◌"
+      title="Loading job"
+      message="Fetching segmentation dashboard and media URLs…"
+    />
+  </div>
+}

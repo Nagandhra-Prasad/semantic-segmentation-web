@@ -1,0 +1,59 @@
+<div class="reports card">
+  <h3>Report generation</h3>
+  <p class="muted">PDF & Excel with original, segmentation, object summary, and metrics.</p>
+
+  @if (message()) {
+    <p class="msg">{{ message() }}</p>
+  }
+
+  <h4>Create from completed job</h4>
+  @if (jobs().length === 0) {
+    <app-empty-state
+      icon="◷"
+      title="No completed jobs"
+      message="Finish a segmentation job first, then return here to generate a PDF or Excel report."
+      linkRoute="/app/upload"
+      linkText="Upload & process"
+    />
+  } @else {
+    <ul>
+      @for (job of jobs(); track job.id) {
+        <li>
+          <span>{{ jobLabel(job) }}</span>
+          <button type="button" class="btn btn-ghost" (click)="generate(job.id)">Generate</button>
+        </li>
+      }
+    </ul>
+  }
+
+  <h4>Download history</h4>
+  @if (reports().length === 0) {
+    <app-empty-state
+      icon="▤"
+      title="No reports yet"
+      message="Generated reports will appear here with PDF and Excel download buttons."
+    />
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Report</th>
+          <th>Source file</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of reports(); track r.id) {
+          <tr>
+            <td>{{ r.display_title || r.pdf_download_name || 'Segmentation report' }}</td>
+            <td>{{ r.source_filename || '—' }}</td>
+            <td>
+              <button type="button" class="btn btn-ghost" (click)="download(r, 'pdf')">PDF</button>
+              <button type="button" class="btn btn-ghost" (click)="download(r, 'excel')">Excel</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

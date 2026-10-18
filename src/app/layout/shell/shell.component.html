@@ -1,0 +1,39 @@
+<div class="shell">
+  <aside class="sidebar card">
+    <div class="brand">
+      <span class="logo">SV</span>
+      <div>
+        <strong>SegVision</strong>
+        <small>Self-Driving AI</small>
+      </div>
+    </div>
+    <nav>
+      @for (item of nav(); track item.path) {
+        <a [routerLink]="item.path" routerLinkActive="active">
+          <span class="icon nav-icon" aria-hidden="true">{{ item.icon }}</span>
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+    <button type="button" class="btn btn-ghost logout" (click)="auth.logout()">Sign out</button>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>Semantic Segmentation</h1>
+        <p>Upload → SegFormer → Insights</p>
+      </div>
+      @if (auth.currentUser(); as user) {
+        <div class="user-chip">
+          <span>{{ user.full_name }}</span>
+          <span class="badge">{{ user.role }}</span>
+        </div>
+      }
+    </header>
+    <section class="content">
+      <div class="page-container">
+        <router-outlet />
+      </div>
+    </section>
+  </main>
+</div>

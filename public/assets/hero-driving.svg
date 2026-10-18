@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ddd6fe"/>
+      <stop offset="100%" stop-color="#f5f3ff"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6d28d9"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="520" fill="url(#sky)"/>
+  <ellipse cx="400" cy="420" rx="360" ry="80" fill="#c4b5fd" opacity=".35"/>
+  <path d="M0 360 Q200 300 400 340 T800 360 L800 520 L0 520 Z" fill="url(#road)" opacity=".25"/>
+  <rect x="120" y="280" width="200" height="120" rx="16" fill="#7c3aed" opacity=".9"/>
+  <rect x="480" y="300" width="180" height="100" rx="12" fill="#a78bfa"/>
+  <circle cx="180" cy="400" r="28" fill="#4c1d95"/>
+  <circle cx="280" cy="400" r="28" fill="#4c1d95"/>
+  <circle cx="540" cy="400" r="26" fill="#4c1d95"/>
+  <circle cx="620" cy="400" r="26" fill="#4c1d95"/>
+  <path d="M200 200 L280 120 L520 100 L640 200 L600 260 L220 260 Z" fill="#ede9fe" stroke="#8b5cf6" stroke-width="3"/>
+  <text x="400" y="180" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="28" font-weight="700" fill="#5b21b6">Semantic Vision</text>
+  <text x="400" y="215" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="16" fill="#6d28d9">Self-Driving Scene Understanding</text>
+</svg>

@@ -1,0 +1,76 @@
+<div class="grid">
+  <div class="actions card">
+    <h3>Quick start</h3>
+    <p>Upload a road image or dashcam clip, then run SegFormer segmentation.</p>
+    <a routerLink="/app/upload" class="btn btn-primary">Upload & process</a>
+  </div>
+
+  @if (summary(); as s) {
+    <div class="stats">
+      <div class="stat card">
+        <span class="label">Total jobs</span>
+        <strong>{{ s['total_jobs'] }}</strong>
+      </div>
+      <div class="stat card">
+        <span class="label">Completed</span>
+        <strong>{{ s['completed_jobs'] }}</strong>
+      </div>
+      <div class="stat card">
+        <span class="label">Avg inference (ms)</span>
+        <strong>{{ s['average_inference_time_ms'] }}</strong>
+      </div>
+      <div class="stat card">
+        <span class="label">Reference mIoU</span>
+        <strong>{{ s['reference_model_miou'] ?? '—' }}</strong>
+      </div>
+    </div>
+  } @else {
+    <div class="card stats-empty">
+      <app-empty-state
+        icon="▣"
+        title="No metrics yet"
+        message="Complete at least one segmentation job to see summary statistics here."
+        linkRoute="/app/upload"
+        linkText="Upload media"
+      />
+    </div>
+  }
+
+  <div class="recent card">
+    <h3>Recent jobs</h3>
+    @if (recentJobs().length === 0) {
+      <app-empty-state
+        icon="◷"
+        title="No jobs yet"
+        message="Your latest SegFormer runs will appear here with status and a link to the viewer."
+        linkRoute="/app/upload"
+        linkText="Start an upload"
+      />
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Classes</th>
+            <th>Time (ms)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (job of recentJobs(); track job.id) {
+            <tr>
+              <td><span class="badge">{{ job.status }}</span></td>
+              <td>{{ job.detected_class_count }}</td>
+              <td>{{ job.inference_time_ms ?? '—' }}</td>
+              <td>
+                <a [routerLink]="['/app/viewer', job.id]">
+                  {{ job.source_filename || 'Open' }}
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>

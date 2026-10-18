@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { GlobalLoaderComponent } from './shared/global-loader/global-loader.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  standalone: true,
+  imports: [RouterOutlet, GlobalLoaderComponent],
+  template: `
+    <app-global-loader />
+    <router-outlet />
+  `,
 })
-export class AppComponent {
-  title = 'semantic-segmentation-web';
-}
+export class AppComponent {}

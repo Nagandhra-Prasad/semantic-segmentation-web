@@ -1,0 +1,156 @@
+.upload-page {
+  width: 100%;
+}
+
+.upload-card {
+  padding: 1.75rem 2rem 2rem;
+}
+
+.upload-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.upload-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.drop {
+  display: block;
+  position: relative;
+  border: 2px dashed var(--purple-300);
+  border-radius: 14px;
+  min-height: 240px;
+  margin: 0 0 1.25rem;
+  background: linear-gradient(180deg, var(--purple-50) 0%, #fff 100%);
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: var(--purple-500);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12);
+  }
+}
+
+.hidden-input {
+  display: none;
+}
+
+.dataset-drop {
+  cursor: default;
+
+  &:hover {
+    border-color: var(--purple-300);
+    box-shadow: none;
+  }
+}
+
+.dataset-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+  pointer-events: auto;
+}
+
+.dataset-hint {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}
+
+.drop-content {
+  min-height: 236px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+label.drop .drop-content {
+  pointer-events: none;
+}
+
+.drop-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--purple-200);
+  font-size: 1.25rem;
+  color: var(--purple-600);
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.12);
+}
+
+.drop-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  color: var(--slate-800);
+}
+
+.drop-meta {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--slate-600);
+}
+
+.upload-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.25rem;
+}
+
+.upload-aside {
+  h4 {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    color: var(--purple-900);
+  }
+
+  ol {
+    margin: 0 0 1rem;
+    padding-left: 1.15rem;
+    color: var(--slate-800);
+    font-size: 0.9rem;
+    line-height: 1.55;
+
+    li {
+      margin-bottom: 0.45rem;
+    }
+  }
+}
+
+.aside-note {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.error {
+  color: #b91c1c;
+  margin: 0 0 1rem;
+}
+
+@media (max-width: 800px) {
+  .upload-card {
+    padding: 1.25rem;
+  }
+
+  .upload-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .upload-actions {
+    justify-content: stretch;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}
